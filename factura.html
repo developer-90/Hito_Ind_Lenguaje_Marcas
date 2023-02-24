@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factura</title>
+    <link rel="icon" href="./icons/icons8-cuenta-15.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="./styles/estilos_facturas.css">
+</head>
+
+<body>
+
+    <!--CONTEDEDORES MENU-->
+    <div class="contenedor_principal">
+        <div class="flex1">
+            <p><a href="./fase1.xml">XML</a></p>
+        </div>
+
+        <div class="flex2">
+            <p><a href="./clientes.html">Clientes</a></p>
+        </div>
+
+        <div class="flex3">
+            <p><a href="./pedidos.html">Pedidos</a></p>
+        </div>
+
+        <div class="flex4">
+            <p><a href="./factura.html">Facturas</a></p>
+        </div>
+
+        <div class="flex5">
+            <p><a href="./fase3.html">Trimestres</a></p>
+        </div>
+    </div>
+    </div>
+
+    <h1>FACTURAS</h1>
+    <hr>
+    <form class="formulario">
+            <label for="idnumber">Introduzca el umero de factura (1 - <span id="number"></span>): </label><br>
+            <input type="number" id="idnumber" name="idnumber" placeholder="Numero de factura"><br>
+            <button type="submit" class="btn btn-secondary btn-sm">Consultar</button>
+    </form><br>
+    <table class="tabla_factura" id="tabla-factura">
+        <tr>
+            <td class="columna1">Factura: </td>
+            <td id="numero"></td>
+        </tr>
+        <tr>
+            <td class="columna1">Nombre: </td>
+            <td id="nombre"></td>
+        </tr>
+        <tr>
+            <td class="columna1">Apellido: </td>
+            <td id="apellido"></td>
+        </tr>
+        <tr>
+            <td class="columna1">Teléfono: </td>
+            <td id="telefono"></td>
+        </tr>
+        <tr>
+            <td class="columna1">Calle: </td>
+            <td id="calle"></td>
+        </tr>
+        <tr>
+            <td class="columna1">Ciudad: </td>
+            <td id="ciudad"></td>
+        </tr>
+        <tr>
+            <td class="columna1">Codigo Postal: </td>
+            <td id="codigo_postal"></td>
+        </tr>
+        <tr>
+            <td class="columna1">Provincia: </td>
+            <td id="provincia"></td>
+        </tr>
+        <tr>
+            <td class="columna1">Email: </td>
+            <td id="email"></td>
+        </tr>
+        <tr>
+            <td class="columna1">ID_Pedido: </td>
+            <td id="id_pedido"></td>
+        </tr>
+        <tr>
+            <td class="columna1">Fecha compra: </td>
+            <td id="fecha_compra"></td>
+        </tr>
+        <tr>
+            <td class="columna1">Fecha entrega: </td>
+            <td id="fecha_entrega"></td>
+        </tr>
+        <tr>
+            <td class="columna1">Total factura: </td>
+            <td id="total_factura"></td>
+        </tr>
+    </table>
+
+    <script>
+        // xhr : permite a los navegadores comunicarse con el servidor sin la necesidad de recagar la pagina
+        // instacia un objeto
+        const xhr = new XMLHttpRequest();
+        // abre documento pasando parametro GET para obtener informacion, URL será la ruta del archivo, formma de ejecutarse asincrono
+        xhr.open("GET", "fase1.xml", true);
+        // addEventListener es un auditor de eventos, el evento load se ejecutara con el segundo parametro que sera una funcion
+        window.addEventListener("load", function () {
+            // instancia un objeto 
+            const xhr = new XMLHttpRequest();
+            // abre documento pasando parametro GET para obtener informacion, URL será la ruta del archivo, forma de ejecutarse sincrono
+            xhr.open("GET", "fase1.xml", true);
+            // almacena el nombre de la función que se ejecutará cuando el objeto XMLHttpRequest cambie de estado
+            xhr.onreadystatechange = function () {
+                /* readyState Almacena el estado del requerimiento hecho al servidor, pudiendo ser:
+                    0 No inicializado (el método open no a sido llamado)
+                    1 Cargando (se llamó al método open)
+                    2 Cargado (se llamó al método send y ya tenemos la cabecera de la petición HTTP y el status)
+                    3 Interactivo (la propiedad responseText tiene datos parciales)
+                    4 Completado (la propiedad responseText tiene todos los datos pedidos al servidor)*/
+                if (this.readyState === 4 && this.status === 200) {
+                    // recupera el documento con estructura DOM a partir de un archivo XML
+                    const xmlDoc = this.responseXML;
+                    // querySelector : Devuelve el primer elemento del selector indicado
+                    // crea una constante y la iguala al valor del elemento indicado
+                    const numberSpan = document.querySelector("#number");
+                    // acceso a las etiquetas mediante su nombre, crea un array con todas las etiquetas con el mismo nombre
+                    const pedidos = xmlDoc.getElementsByTagName("pedido");
+                    // Ubica un elemento dentro del DOM e iguala al numero de elementos del elemento raiz 'pedidos'
+                    numberSpan.innerHTML = pedidos.length;
+                }
+            };
+            // envia objeto al servidor
+            xhr.send();
+        });
+        // almacena el nombre de la función que se ejecutará cuando el objeto XMLHttpRequest cambie de estado
+        xhr.onreadystatechange = function () {
+            /* readyState Almacena el estado del requerimiento hecho al servidor, pudiendo ser:
+                    0 No inicializado (el método open no a sido llamado)
+                    1 Cargando (se llamó al método open)
+                    2 Cargado (se llamó al método send y ya tenemos la cabecera de la petición HTTP y el status)
+                    3 Interactivo (la propiedad responseText tiene datos parciales)
+                    4 Completado (la propiedad responseText tiene todos los datos pedidos al servidor)*/
+            if (this.readyState === 4 && this.status === 200) {
+                // recupera documento con estructura DOM a partir de un archivo XML
+                const xmlDoc = this.responseXML;
+                // recorre las etiquetas del formulario
+                const form = document.querySelector("form");
+                // cuando se ejecuta el type del button (submit en este caso) se añade un evento
+                form.addEventListener("submit", function (event) {
+                    // cancela el evento, lo que significa que cualquier acción por defecto que deba producirse como resultado de este evento, no ocurrirá.
+                    event.preventDefault();
+                    // guarda el numero introducido en la constante idNumber
+                    const idNumber = document.querySelector("#idnumber").value;
+                    // recorre las etiquetas del elemento indicado
+                    const pedidos = xmlDoc.getElementsByTagName("pedido");
+                    // si el numero introducido es menor que 1 o es mayor que la longitud del elemento padre 'pedidos'
+                    if (idNumber < 1 || idNumber > (pedidos.length - 1)) {
+                        // querySelector : lee el dato introducido y los dejara en blanco si no cumple las condiciones
+                        // innerHTML asigna el contenido indicado
+                        document.querySelector("#numero").innerHTML = "";
+                        document.querySelector("#nombre").innerHTML = "";
+                        document.querySelector("#apellido").innerHTML = "";
+                        document.querySelector("#telefono").innerHTML = "";
+                        document.querySelector("#calle").innerHTML = "";
+                        document.querySelector("#ciudad").innerHTML = "";
+                        document.querySelector("#codigo_postal").innerHTML = "";
+                        document.querySelector("#provincia").innerHTML = "";
+                        document.querySelector("#email").innerHTML = "";
+                        document.querySelector("#id_pedido").innerHTML = "";
+                        document.querySelector("#fecha_compra").innerHTML = "";
+                        document.querySelector("#fecha_entrega").innerHTML = "";
+                        document.querySelector("#total_factura").innerHTML = ""; 
+                        alert("No se encontró una factura con ese número");
+                        return;
+                    }
+                    // childNodes : devuelve un array con todos los nodos hijos que contiene el nodo
+                    // nodeVlue : indica el valor del elemento al que se le aplica. En un atributo, su valor y en un nodo, el texto en sí
+                    // getElementsByTagName() : acceso a las etiquetas mediante su nombre, crea un array con todas las etiquetas con el mismo nombre
+                    const pedido = pedidos[idNumber-1];
+                    const numero = pedido.getElementsByTagName("numero")[0].childNodes[0].nodeValue;
+                    const nombre = pedido.getElementsByTagName("nombre")[0].childNodes[0].nodeValue;
+                    const apellido = pedido.getElementsByTagName("apellido")[0].childNodes[0].nodeValue;
+                    const telefono = pedido.getElementsByTagName("telefono")[0].childNodes[0].nodeValue;
+                    const calle = pedido.getElementsByTagName("calle")[0].childNodes[0].nodeValue;
+                    const ciudad = pedido.getElementsByTagName("ciudad")[0].childNodes[0].nodeValue;
+                    const codigo_postal = pedido.getElementsByTagName("codigo_postal")[0].childNodes[0].nodeValue;
+                    const provincia = pedido.getElementsByTagName("provincia")[0].childNodes[0].nodeValue;
+                    const email = pedido.getElementsByTagName("email")[0].childNodes[0].nodeValue;
+                    const id_pedido = pedido.getElementsByTagName("id_pedido")[0].childNodes[0].nodeValue;
+                    const fecha_compra = pedido.getElementsByTagName("fecha_compra")[0].childNodes[0].nodeValue;
+                    const fecha_entrega = pedido.getElementsByTagName("fecha_entrega")[0].childNodes[0].nodeValue;
+                    const total_factura = pedido.getElementsByTagName("total_factura")[0].childNodes[0].nodeValue; 
+                    // devuelve el primer elemento utilizando un recorrido
+                    document.querySelector("#numero").innerHTML = numero;
+                    document.querySelector("#nombre").innerHTML = nombre;
+                    document.querySelector("#apellido").innerHTML = apellido;
+                    document.querySelector("#telefono").innerHTML = telefono;
+                    document.querySelector("#calle").innerHTML = calle;
+                    document.querySelector("#ciudad").innerHTML = ciudad;
+                    document.querySelector("#codigo_postal").innerHTML = codigo_postal;
+                    document.querySelector("#provincia").innerHTML = provincia;
+                    document.querySelector("#email").innerHTML = email;
+                    document.querySelector("#id_pedido").innerHTML = id_pedido;
+                    document.querySelector("#fecha_compra").innerHTML = fecha_compra;
+                    document.querySelector("#fecha_entrega").innerHTML = fecha_entrega;
+                    document.querySelector("#total_factura").innerHTML = total_factura;
+                });
+            }
+        };
+        // envia el objeto al servidor
+        xhr.send();
+    </script>
+</body>
+</html>

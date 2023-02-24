@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos</title>
+    <link rel="icon" href="./icons/icons8-caja-de-cartón-15.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="./styles/estilos.css">
+</head>
+<body>
+    
+    <!--CONTEDEDORES MENU-->
+    <div class="contenedor_principal">
+        <div class="flex1">
+            <p><a href="./fase1.xml">XML</a></p>
+        </div>
+
+        <div class="flex2">
+            <p><a href="./clientes.html">Clientes</a></p>
+        </div>
+
+        <div class="flex3">
+            <p><a href="./pedidos.html">Pedidos</a></p>
+        </div>
+
+        <div class="flex4">
+            <p><a href="./factura.html">Facturas</a></p>
+        </div>
+
+        <div class="flex5">
+            <p><a href="./fase3.html">Trimestres</a></p>
+        </div>
+    </div>
+
+    <h1>TRIMESTRES</h1>
+    <hr>
+    <script>
+        // semiclase para obtener el objeto XMLHttpRequest para IE7, Firefox , Chrome, Opera, Safari
+        if (window.XMLHttpRequest)
+        {
+            // instancia objeto nativo que permite hacer solicitudes HTTP desde JS : navegadores que siguen los estandares
+            xmlhttp=new XMLHttpRequest();
+        }
+        else
+        {
+            // instancia objeto ActiveX : navegadores obsoletos
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        // abre documento pasando parametro GET para obtener informacion, URL será la ruta del archivo, formma de ejecutarse asincrono
+        xmlhttp.open("GET","fase1.xml",false);
+        // envia el objeto al servidor
+        xmlhttp.send();
+        // recupera documento con estructura DOM a partir de un archivo XML
+        xmlDoc=xmlhttp.responseXML;
+        // metodo para imprimir texto especifico en la pagina
+        document.write("<table class='table table-dark table-striped'>");
+        // busca elementos con la etiqueta dada y devuelve una colección con ellos
+        var pedidos=xmlDoc.getElementsByTagName("pedido");
+        // metodo para imprimir texto especifico en la pagina
+        document.write("<th>Nombre</th>");
+        document.write("<th>Email</th>");
+        document.write("<th>Producto</th>");
+        document.write("<th>Año</th>");
+        document.write("<th>Trimestre</th>");
+        // bucle inicializa i=0, mientras i sea menor recorre todos los elementos indicados y en cada vuelta se incrementa i en 1
+        for(var i=0;i<pedidos.length;i++)
+        {
+            // childNodes : devuelve un array con todos los nodos hijos que contiene el nodo
+            // nodeValue : indica el valor del elemento al que se le aplica. En un atributo, su valor y en un nodo, el texto en sí
+            // getElementsByTagName() : acceso a las etiquetas mediante su nombre, crea un array con todas las etiquetas con el mismo nombre
+            nombre=pedidos[i].getElementsByTagName("nombre")[0].childNodes[0].nodeValue
+            email=pedidos[i].getElementsByTagName("email")[0].childNodes[0].nodeValue
+            nombre_producto=pedidos[i].getElementsByTagName("nombre_producto")[0].childNodes[0].nodeValue
+            año=pedidos[i].getElementsByTagName("año")[0].childNodes[0].nodeValue
+            trimestre=pedidos[i].getElementsByTagName("trimestre")[0].childNodes[0].nodeValue
+            // parseInt : analiza una cadena para determinar si contiene un valor entero
+            if (parseInt(trimestre) < 2 ){
+            document.write("<tr><td>");
+            document.write(nombre);
+            document.write("</td><td>");
+            document.write(email);
+            document.write("</td><td>");
+            document.write(nombre_producto);
+            document.write("</td><td>");
+            document.write(año);
+            document.write("</td><td>");
+            document.write(trimestre);           
+            document.write("</td></tr>");
+
+        }
+        // parseInt : analiza una cadena para determinar si contiene un valor entero
+        if (parseInt(trimestre) > 7  ) {
+            document.write("<tr><td>");
+            document.write(nombre);
+            document.write("</td><td>");
+            document.write(email);
+            document.write("</td><td>");
+            document.write(nombre_producto);
+            document.write("</td><td>");
+            document.write(año);
+            document.write("</td><td>");
+            document.write(trimestre);
+            document.write("</td></tr>");
+        }
+    }
+        // cierra la tabla
+        document.write("</table>");
+    </script>
+    </body>
+</html>

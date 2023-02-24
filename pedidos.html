@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos</title>
+    <link rel="icon" href="./icons/icons8-caja-de-cartón-15.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="./styles/estilos.css">
+</head>
+<body>
+
+    
+    <!--CONTEDEDORES MENU-->
+    <div class="contenedor_principal">
+        <div class="flex1">
+            <p><a href="./fase1.xml">XML</a></p>
+        </div>
+
+        <div class="flex2">
+            <p><a href="./clientes.html">Clientes</a></p>
+        </div>
+
+        <div class="flex3">
+            <p><a href="./pedidos.html">Pedidos</a></p>
+        </div>
+
+        <div class="flex4">
+            <p><a href="./factura.html">Facturas</a></p>
+        </div>
+
+        <div class="flex5">
+            <p><a href="./fase3.html">Trimestres</a></p>
+        </div>
+    </div>
+    </div>
+
+    <h1>PEDIDOS</h1>
+    <hr>
+    <script>
+        // semiclase para obtener el objeto XMLHttpRequest para IE7, Firefox , Chrome, Opera, Safari
+        if (window.XMLHttpRequest)
+        {
+            // instancia objeto nativo que permite hacer solicitudes HTTP desde JS : navegadores que siguen los estandares
+            xmlhttp=new XMLHttpRequest();
+        }
+        else
+        {
+            // instancia objeto ActiveX : navegadores obsoletos
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        // abre documento pasando parametro GET para obtener informacion, URL será la ruta del archivo, formma de ejecutarse asincrono
+        xmlhttp.open("GET","./fase1.xml",false);
+        // envia el objeto al servidor
+        xmlhttp.send();
+        // recupera documento con estructura DOM a partir de un archivo XML
+        xmlDoc=xmlhttp.responseXML;
+        // metodo para imprimir texto especifico en la pagina
+        document.write("<table class='table table-dark table-striped'>");
+        document.write("<th class='thead'>ID_PEDIDO</th>");
+        document.write("<th>FECHA COMPRA</th>");
+        document.write("<th>FECHA ENTREGA</th>");
+        document.write("<th>TOTAL FACTURA</th>");
+        document.write("<th>PRODUCTO</th>");
+        document.write("<th>REFERENCIA</th>");
+        document.write("<th>PRECIO</th>");
+        document.write("<th>UNIDADES</th>");
+        // busca elementos con la etiqueta dada y devuelve una colección con ellos
+        var pedidos=xmlDoc.getElementsByTagName("pedido");
+        // bucle inicializa i=0, mientras i sea menor se ejecuta el bloque de codigo dentro del bucle y en cada vuelta se incrementa i en 1
+        for(var i=0;i<pedidos.length;i++)
+        {
+            // childNodes : devuelve un array con todos los nodos hijos que contiene el nodo
+            // nodeValue : indica el valor del elemento al que se le aplica. En un atributo, su valor y en un nodo, el texto en sí
+            // getElementsByTagName() : acceso a las etiquetas mediante su nombre, crea un array con todas las etiquetas con el mismo nombre
+            id_pedido=pedidos[i].getElementsByTagName("id_pedido")[0].childNodes[0].nodeValue
+            fecha_compra=pedidos[i].getElementsByTagName("fecha_compra")[0].childNodes[0].nodeValue
+            fecha_entrega=pedidos[i].getElementsByTagName("fecha_entrega")[0].childNodes[0].nodeValue
+            total_factura=pedidos[i].getElementsByTagName("total_factura")[0].childNodes[0].nodeValue
+            nombre_producto=pedidos[i].getElementsByTagName("nombre_producto")[0].childNodes[0].nodeValue
+            referencia=pedidos[i].getElementsByTagName("referencia")[0].childNodes[0].nodeValue
+            precio=pedidos[i].getElementsByTagName("precio")[0].childNodes[0].nodeValue
+            unidades=pedidos[i].getElementsByTagName("unidades")[0].childNodes[0].nodeValue
+            // metodo para imprimir texto especifico en la pagina
+            document.write("<tr><td>");
+            document.write(id_pedido);
+            document.write("</td><td>");
+            document.write(fecha_compra);
+            document.write("</td><td>");
+            document.write(fecha_entrega);
+            document.write("</td><td>");
+            document.write(total_factura);
+            document.write("</td><td>");
+            document.write(nombre_producto);
+            document.write("</td><td>");
+            document.write(referencia);
+            document.write("</td><td>");
+            document.write(precio);
+            document.write("</td><td>");
+            document.write(unidades);            
+            document.write("</td></tr>");
+        }
+        // cierra la tabla
+        document.write("</table>");
+    </script>
+</body>
+</html>
